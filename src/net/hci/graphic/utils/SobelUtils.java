@@ -2,6 +2,7 @@ package net.hci.graphic.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.Color;
 
 public class SobelUtils {
 	/**
@@ -12,7 +13,7 @@ public class SobelUtils {
 	 */
 	public static Bitmap Sobel(Bitmap bitmap) {
 
-		bitmap = CommenUtils.getSmallBitmap(bitmap, 480, 800);
+		bitmap = CommenUtils.compress(bitmap, 480, 800);
 		Bitmap temp = CommenUtils.toGrayscale(bitmap);
 		int w = temp.getWidth();
 		int h = temp.getHeight();
@@ -27,21 +28,22 @@ public class SobelUtils {
 		double max = Double.MIN_VALUE;
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
-				tmap[j * w + i] = Math.sqrt(GX(i, j, temp) * GX(i, j, temp)
-						+ GY(i, j, temp) * GY(i, j, temp));
+				double gx = GX(i, j, temp);
+				double gy = GY(i, j, temp);
+				tmap[j * w + i] = Math.sqrt(gx * gx + gy * gy);
 				if (max < tmap[j * w + i]) {
 					max = tmap[j * w + i];
 				}
 			}
 		}
 
-		double top = max * 0.07;
+		double top = max * 0.06;
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
 				if (tmap[j * w + i] > top) {
 					cmap[j * w + i] = mmap[j * w + i];
 				} else {
-					cmap[j * w + i] = 0;
+					cmap[j * w + i] = Color.WHITE;
 				}
 			}
 		}

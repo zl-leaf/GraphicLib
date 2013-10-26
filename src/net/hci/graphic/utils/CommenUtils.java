@@ -44,7 +44,7 @@ public class CommenUtils {
 	 * @param width
 	 * @return
 	 */
-	public static Bitmap getSmallBitmap(final Bitmap bm, int reqWidth, int reqHeight) {
+	public static Bitmap compress(final Bitmap bm, int reqWidth, int reqHeight) {
 		int width = bm.getWidth();
 		int height = bm.getHeight();
 		
